@@ -40,11 +40,25 @@ public class BookManagerActivity extends AppCompatActivity {
         bindService(intent, connection, Context.BIND_AUTO_CREATE);
     }
 
+    private IBinder.DeathRecipient mDeathRecipient = new IBinder.DeathRecipient() {
+        @Override
+        public void binderDied() {
+            Log.d(TAG, "binder died. tname:" + Thread.currentThread().getName());
+            if (bookManager == null)
+                return;
+            bookManager.asBinder().unlinkToDeath(mDeathRecipient, 0);
+            bookManager = null;
+            Intent intent = new Intent("com.tony.service.book");
+            bindService(intent, connection, Context.BIND_AUTO_CREATE);
+        }
+    };
+
     private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             bookManager = IBookManager.Stub.asInterface(service);
             try {
+                bookManager.asBinder().linkToDeath(mDeathRecipient, 0);
                 bookManager.registerListener(listener);
 //                List<Book> list = bookManager.getBookList();
 //                Log.i(TAG, "query book list, list type:" + list.getClass().getCanonicalName());
@@ -58,7 +72,8 @@ public class BookManagerActivity extends AppCompatActivity {
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-
+            bookManager = null;
+            Log.d(TAG, "onServiceDisconnected. tname:" + Thread.currentThread().getName());
         }
     };
 

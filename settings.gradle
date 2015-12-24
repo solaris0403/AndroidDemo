@@ -1,1 +1,1 @@
-include ':app', ':aidl', ':messenger'
+include ':app', ':aidl', ':messenger', ':contentprovider', ':greendaogenerator', ':greenrobot', ':socket', ':binderpool', ':view'
