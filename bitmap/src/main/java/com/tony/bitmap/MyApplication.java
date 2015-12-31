@@ -1,0 +1,16 @@
+package com.tony.bitmap;
+
+import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
+
+/**
+ * Created by user on 12/31/15.
+ */
+public class MyApplication extends Application{
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+}

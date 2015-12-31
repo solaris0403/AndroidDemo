@@ -1,1 +1,1 @@
-include ':app', ':aidl', ':messenger', ':contentprovider', ':greendaogenerator', ':greenrobot', ':socket', ':binderpool', ':view'
+include ':app', ':aidl', ':messenger', ':contentprovider', ':greendaogenerator', ':greenrobot', ':socket', ':binderpool', ':view', ':remoteview', ':drawable', ':animation', ':window', ':webview', ':thread', ':bitmap'
